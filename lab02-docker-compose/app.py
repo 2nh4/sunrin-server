@@ -20,15 +20,15 @@ FORM_HTML = '''
     </form>
 '''
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index():
-    if request.mehotd == 'POST':
-        uid = request.form['userid']
+    if request.method == 'POST':
+        uid = request.form['user']
 
         try:
             conn = get_db()
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO users (name) VALUES (%s)", (name,))
+            cursor.execute("INSERT INTO users (name) VALUES (%s)", (uid,))
             conn.commit()
             cursor.close()
             conn.close()
@@ -40,4 +40,4 @@ def index():
     return render_template_string(FORM_HTML)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=3001)
